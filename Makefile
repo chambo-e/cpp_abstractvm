@@ -5,7 +5,7 @@
 ## Login   <chambo_e@epitech.net>
 ## 
 ## Started on  Tue Feb 17 22:06:35 2015 Emmanuel Chambon
-## Last update Wed Feb 18 00:55:00 2015 Emmanuel Chambon
+## Last update Thu Feb 19 04:40:45 2015 Emmanuel Chambon
 ##
 
 NAME		=	avm
@@ -22,6 +22,8 @@ SRCDIR		=	src
 
 SRC		=	$(SRCDIR)/main.cpp		\
 			$(SRCDIR)/VMException.cpp	\
+			$(SRCDIR)/Memory.cpp		\
+			$(SRCDIR)/Cpu.cpp		\
 			$(SRCDIR)/Chipset.cpp
 
 OBJ		=	$(SRC:.cpp=.o)

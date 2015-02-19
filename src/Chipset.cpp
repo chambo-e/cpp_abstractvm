@@ -5,18 +5,14 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Tue Feb 17 17:32:28 2015 Emmanuel Chambon
-// Last update Thu Feb 19 00:11:21 2015 Emmanuel Chambon
+// Last update Thu Feb 19 04:56:43 2015 Emmanuel Chambon
 //
 
 #include "Chipset.hpp"
 
-Chipset::Chipset(int ac, char **av) : _cac(ac), _cav(av), _exit(false)
+Chipset::Chipset(int ac, char **av) : _cac(ac), _cav(av), _exit(false), _cpu(Cpu::getInstance())
 {
 
-}
-
-Chipset::~Chipset()
-{
 }
 
 void		Chipset::read()
@@ -44,13 +40,15 @@ void		Chipset::read()
     for (int i = 1; _cav[i] ; i++) {
       std::fstream	file;
 
-      if (file.is_open())
+      file.open(_cav[i]);
+      if (file.is_open() == true) {
 	while (std::getline(file, line) && _exit == false) {
 	  if ((line = epur_line(line)).empty() == false)
 	    stream << line << "\n";
 	}
-      else
+      } else {
 	throw VMException(std::string("avm: error: ") + std::string(_cav[i]) + std::string(": No such file or directory"));
+      }
       if (_exit == false)
 	throw VMException("\"exit\" instruction is missing.");
       try {
@@ -90,6 +88,7 @@ void		Chipset::setInstr()
   _type.insert(Type::value_type("int8", ::Int8));
   _type.insert(Type::value_type("int16", ::Int16));
   _type.insert(Type::value_type("int32", ::Int32));
+  _type.insert(Type::value_type("int64", ::Int32));
   _type.insert(Type::value_type("float", ::Float));
   _type.insert(Type::value_type("double", ::Double));
 }
@@ -151,7 +150,7 @@ void		Chipset::parse(std::stringstream &input)
 	  else if (instr == "assert")
 	    _cpu.assert(getOperandType(args), getOperandValue(args));
 	} catch (std::exception &e) {
-	  error << ":" << ln << ": " << e.what() << std::endl << "~>   " << line;
+	  error << ":" << ln << ": " << e.what() << std::endl << "~>\t" << line;
 	  throw VMException(error.str());
 	}
       }
@@ -168,7 +167,7 @@ void		Chipset::parse(std::stringstream &input)
 	    (_cpu.*ptr)();
 	  }
 	  else {
-	    error << ":" << ln << ": Unknow instruction type" << std::endl << "~>   " << line_stream;
+	    error << ":" << ln << ": Unknow instruction type" << std::endl << "~>\t" << line_stream;
 	    throw VMException(error.str());
 	  }
 	}

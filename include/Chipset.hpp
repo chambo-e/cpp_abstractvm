@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Tue Feb 17 17:22:29 2015 Emmanuel Chambon
-// Last update Wed Feb 18 20:58:20 2015 Emmanuel Chambon
+// Last update Thu Feb 19 03:11:59 2015 Emmanuel Chambon
 //
 
 #ifndef CHIPSET_HPP_
@@ -25,12 +25,11 @@ class Chipset
 {
 public:
   Chipset(int, char **);
-  ~Chipset();
+  ~Chipset() {};
 
 private:
   int							_cac;
   char							**_cav;
-  Cpu							_cpu;
   bool							_exit;
 
 private:
@@ -40,6 +39,7 @@ private:
   Instr							_instr;
   ConstInstr						_constInstr;
   Type							_type;
+  Cpu							&_cpu;
 
 public:
   void						read();
