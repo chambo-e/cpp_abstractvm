@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Tue Feb 17 17:32:28 2015 Emmanuel Chambon
-// Last update Thu Feb 19 04:56:43 2015 Emmanuel Chambon
+// Last update Fri Feb 20 01:00:16 2015 Emmanuel Chambon
 //
 
 #include "Chipset.hpp"
@@ -24,7 +24,7 @@ void		Chipset::read()
     while (std::getline(std::cin, line)) {
       if (line == ";;")
 	break;
-      if ((line = epur_line(line)).empty() == false)
+      // if ((line = epur_line(line)).empty() == false)
 	stream << line << "\n";
     }
     if (line != ";;")
@@ -43,8 +43,8 @@ void		Chipset::read()
       file.open(_cav[i]);
       if (file.is_open() == true) {
 	while (std::getline(file, line) && _exit == false) {
-	  if ((line = epur_line(line)).empty() == false)
-	    stream << line << "\n";
+	  line = epur_line(line);
+	  stream << line << "\n";
 	}
       } else {
 	throw VMException(std::string("avm: error: ") + std::string(_cav[i]) + std::string(": No such file or directory"));
@@ -150,7 +150,7 @@ void		Chipset::parse(std::stringstream &input)
 	  else if (instr == "assert")
 	    _cpu.assert(getOperandType(args), getOperandValue(args));
 	} catch (std::exception &e) {
-	  error << ":" << ln << ": " << e.what() << std::endl << "~>\t" << line;
+	  error << ":" << ln << ": " << "\t\"" << line << "\"" << std::endl << e.what();
 	  throw VMException(error.str());
 	}
       }
@@ -158,16 +158,26 @@ void		Chipset::parse(std::stringstream &input)
 	Instr::iterator i = _instr.find(instr);
 	if (i != _instr.end()) {
 	  void(Cpu::*ptr)() = i->second;
-	  (_cpu.*ptr)();
+	  try {
+	    (_cpu.*ptr)();
+	  } catch (std::exception &e) {
+	    error << ":" << ln << ": " << "\t\"" << RED << line << RESET << "\"" << std::endl << e.what();
+	    throw VMException(error.str());
+	  }
 	}
 	else {
 	  ConstInstr::iterator i = _constInstr.find(instr);
 	  if (i != _constInstr.end()) {
 	    void(Cpu::*ptr)() const = i->second;
-	    (_cpu.*ptr)();
+	    try {
+	      (_cpu.*ptr)();
+	    } catch (std::exception &e) {
+	      error << ":" << ln << ": " << "\t\"" << RED << line << RESET << "\"" << std::endl << e.what();
+	      throw VMException(error.str());
+	    }
 	  }
 	  else {
-	    error << ":" << ln << ": Unknow instruction type" << std::endl << "~>\t" << line_stream;
+	    error << ":" << ln << ": " << "\t\"" << RED << line << RESET << "\"" << std::endl << "   Unknow instruction type";
 	    throw VMException(error.str());
 	  }
 	}

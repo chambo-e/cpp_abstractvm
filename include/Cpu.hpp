@@ -5,19 +5,18 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Wed Feb 18 00:09:46 2015 Emmanuel Chambon
-// Last update Thu Feb 19 05:10:46 2015 Emmanuel Chambon
+// Last update Fri Feb 20 01:02:21 2015 Emmanuel Chambon
 //
 
 #ifndef CPU_HPP_
 # define CPU_HPP_
 
-#include "IOperand.hpp"
 #include "VMException.hpp"
 #include "Memory.hpp"
-#include "Operand.hpp"
 #include <stdint.h>
 #include <iostream>
 #include <sstream>
+# include "Colors.hpp"
 
 class Cpu
 {
@@ -43,6 +42,12 @@ public:
 
 private:
   IOperand		*createOperand(eOperandType, const std::string &);
+  IOperand		*createInt8(const std::string &);
+  IOperand		*createInt16(const std::string &);
+  IOperand		*createInt32(const std::string &);
+  IOperand		*createInt64(const std::string &);
+  IOperand		*createFloat(const std::string &);
+  IOperand		*createDouble(const std::string &);
 
 private:
   static Cpu		_inst;

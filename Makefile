@@ -5,7 +5,7 @@
 ## Login   <chambo_e@epitech.net>
 ## 
 ## Started on  Tue Feb 17 22:06:35 2015 Emmanuel Chambon
-## Last update Thu Feb 19 04:40:45 2015 Emmanuel Chambon
+## Last update Fri Feb 20 00:35:24 2015 Emmanuel Chambon
 ##
 
 NAME		=	avm
@@ -23,6 +23,7 @@ SRCDIR		=	src
 SRC		=	$(SRCDIR)/main.cpp		\
 			$(SRCDIR)/VMException.cpp	\
 			$(SRCDIR)/Memory.cpp		\
+			$(SRCDIR)/Operand.cpp		\
 			$(SRCDIR)/Cpu.cpp		\
 			$(SRCDIR)/Chipset.cpp
 

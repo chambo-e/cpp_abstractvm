@@ -5,21 +5,14 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Thu Feb 19 00:55:31 2015 Emmanuel Chambon
-// Last update Thu Feb 19 05:09:03 2015 Emmanuel Chambon
+// Last update Fri Feb 20 01:04:19 2015 Emmanuel Chambon
 //
 
 #include "Cpu.hpp"
+#include "cOperandType.hpp"
+#include "Operand.hpp"
 
 Cpu Cpu::_inst = Cpu();
-
-static const char *_cOperandType[6] = {
-  "Int8",
-  "Int16",
-  "Int32",
-  "Int64",
-  "Float",
-  "Double"
-};
 
 Cpu		&Cpu::operator=(const Cpu &cpu)
 {
@@ -43,8 +36,8 @@ void		Cpu::print() const
   char			c;
 
   if (top->getType() != ::Int8)
-    throw VMException(std::string("Invalid type : ") + std::string(::_cOperandType[top->getType()])
-		      + std::string("Only Int8 values can be printed"));
+    throw VMException(std::string(RED) + std::string("   Invalid type: ") + std::string(RESET) + std::string(::_cOperandType[top->getType()])
+		      + std::string("\n\tOnly Int8 values can be printed"));
   out >> c;
   std::cout << c << std::endl;
 }
@@ -60,9 +53,9 @@ void		Cpu::assert(eOperandType t, const std::string &value)
 
   if (top->toString() != value
       || top->getType() != t)
-    throw VMException(std::string("Assert not verified.\n   ") + std::string(::_cOperandType[t]) +
-		      std::string(" .vs. ") + std::string(::_cOperandType[top->getType()]) + std::string("\n   ") +
-		      value + std::string(" .vs .") + top->toString());
+    throw VMException(std::string("   Assert not verified.\n\t") + std::string(::_cOperandType[t]) +
+		      std::string(" .vs. ") + std::string(::_cOperandType[top->getType()]) + std::string("\n\t") +
+		      value + std::string(" .vs. ") + top->toString());
   std::cout << top->toString() << std::endl;
 }
 
@@ -91,19 +84,49 @@ void		Cpu::mod()
 
 }
 
+IOperand	*Cpu::createInt8(const std::string &value)
+{
+  return new Operand<signed char>(::Int8, value);
+}
+
+IOperand	*Cpu::createInt16(const std::string &value)
+{
+  return new Operand<int16_t>(::Int16, value);
+}
+
+IOperand	*Cpu::createInt32(const std::string &value)
+{
+  return new Operand<int32_t>(::Int32, value);
+}
+
+IOperand	*Cpu::createInt64(const std::string &value)
+{
+  return new Operand<int64_t>(::Int64, value);
+}
+
+IOperand	*Cpu::createFloat(const std::string &value)
+{
+  return new Operand<float>(::Float, value);
+}
+
+IOperand	*Cpu::createDouble(const std::string &value)
+{
+  return new Operand<double>(::Double, value);
+}
+
 IOperand	*Cpu::createOperand(eOperandType t, const std::string &value)
 {
   if (t == ::Int8)
-    return new Operand<int8_t>(value, t);
+    return createInt8(value);
   else if (t == ::Int16)
-    return new Operand<int16_t>(value, t);
+    return createInt16(value);
   else if (t == ::Int32)
-    return new Operand<int32_t>(value, t);
+    return createInt32(value);
   else if (t == ::Int64)
-    return new Operand<int64_t>(value, t);
+    return createInt64(value);
   else if (t == ::Float)
-    return new Operand<float>(value, t);
+    return createFloat(value);
   else if (t == ::Double)
-    return new Operand<double>(value, t);
+    return createDouble(value);
   return 0;
 }

@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Tue Feb 17 17:22:29 2015 Emmanuel Chambon
-// Last update Thu Feb 19 03:11:59 2015 Emmanuel Chambon
+// Last update Fri Feb 20 01:02:10 2015 Emmanuel Chambon
 //
 
 #ifndef CHIPSET_HPP_
@@ -20,6 +20,7 @@
 # include "Cpu.hpp"
 # include "VMException.hpp"
 # include "IOperand.hpp"
+# include "Colors.hpp"
 
 class Chipset
 {

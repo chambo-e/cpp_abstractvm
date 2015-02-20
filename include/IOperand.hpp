@@ -5,22 +5,14 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Wed Feb 18 18:50:23 2015 Emmanuel Chambon
-// Last update Thu Feb 19 04:56:06 2015 Emmanuel Chambon
+// Last update Thu Feb 19 19:48:33 2015 Emmanuel Chambon
 //
 
 #ifndef IOPERAND_HPP_
 # define IOPERAND_HPP_
 
 #include <string>
-
-enum eOperandType {
-  Int8,
-  Int16,
-  Int32,
-  Int64,
-  Float,
-  Double
-};
+#include "eOperandType.hpp"
 
 class IOperand
 {
