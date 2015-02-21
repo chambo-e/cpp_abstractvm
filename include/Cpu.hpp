@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Wed Feb 18 00:09:46 2015 Emmanuel Chambon
-// Last update Fri Feb 20 01:02:21 2015 Emmanuel Chambon
+// Last update Sat Feb 21 22:50:09 2015 Emmanuel Chambon
 //
 
 #ifndef CPU_HPP_
@@ -40,7 +40,7 @@ public:
   void			push(const eOperandType, const std::string &);
   void			assert(const eOperandType, const std::string &);
 
-private:
+public:
   IOperand		*createOperand(eOperandType, const std::string &);
   IOperand		*createInt8(const std::string &);
   IOperand		*createInt16(const std::string &);

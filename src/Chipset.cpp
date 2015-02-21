@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Tue Feb 17 17:32:28 2015 Emmanuel Chambon
-// Last update Fri Feb 20 01:00:16 2015 Emmanuel Chambon
+// Last update Fri Feb 20 14:19:25 2015 Emmanuel Chambon
 //
 
 #include "Chipset.hpp"
@@ -24,7 +24,7 @@ void		Chipset::read()
     while (std::getline(std::cin, line)) {
       if (line == ";;")
 	break;
-      // if ((line = epur_line(line)).empty() == false)
+      line = epur_line(line);
 	stream << line << "\n";
     }
     if (line != ";;")
@@ -149,6 +149,8 @@ void		Chipset::parse(std::stringstream &input)
 	    _cpu.push(getOperandType(args), getOperandValue(args));
 	  else if (instr == "assert")
 	    _cpu.assert(getOperandType(args), getOperandValue(args));
+	  else
+	    throw VMException("   Unknow instruction type");
 	} catch (std::exception &e) {
 	  error << ":" << ln << ": " << "\t\"" << line << "\"" << std::endl << e.what();
 	  throw VMException(error.str());

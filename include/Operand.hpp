@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Thu Feb 19 04:30:49 2015 Emmanuel Chambon
-// Last update Fri Feb 20 00:31:54 2015 Emmanuel Chambon
+// Last update Sat Feb 21 23:39:35 2015 Emmanuel Chambon
 //
 
 #ifndef OPERAND_HPP_
@@ -15,6 +15,10 @@
 #include "eOperandType.hpp"
 #include "Cpu.hpp"
 #include <sstream>
+#include <math.h>
+#include <map>
+#include <string>
+#include <limits>
 
 template <typename T>
 class Operand : public IOperand
@@ -35,10 +39,15 @@ public:
   IOperand		*operator%(const IOperand &) const;
 
 private:
-  eOperandType		_type;
-  std::string		_str;
-  Cpu			&_cpu;
-  T			_value;
+  void			initOperand();
+
+private:
+  typedef std::map<eOperandType, IOperand *(Cpu::*)(const std::string &)>	Op;
+  Op									 _operand;
+  eOperandType								_type;
+  std::string								_str;
+  Cpu									&_cpu;
+  T									_value;
 };
 
 #endif

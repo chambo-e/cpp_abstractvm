@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Thu Feb 19 00:55:31 2015 Emmanuel Chambon
-// Last update Fri Feb 20 01:04:19 2015 Emmanuel Chambon
+// Last update Sat Feb 21 22:59:18 2015 Emmanuel Chambon
 //
 
 #include "Cpu.hpp"
@@ -21,7 +21,7 @@ Cpu		&Cpu::operator=(const Cpu &cpu)
 
 void		Cpu::pop()
 {
-  _ram.pop();
+  _ram.del();
 }
 
 void		Cpu::dump() const
@@ -31,7 +31,7 @@ void		Cpu::dump() const
 
 void		Cpu::print() const
 {
-  IOperand		*top = _ram.popless();
+  IOperand		*top = _ram[0];
   std::stringstream	out(top->toString());
   char			c;
 
@@ -49,39 +49,73 @@ void		Cpu::push(eOperandType t, const std::string &value)
 
 void		Cpu::assert(eOperandType t, const std::string &value)
 {
-  IOperand	*top = _ram.popless();
+  IOperand	*top = _ram[0];
 
   if (top->toString() != value
       || top->getType() != t)
     throw VMException(std::string("   Assert not verified.\n\t") + std::string(::_cOperandType[t]) +
 		      std::string(" .vs. ") + std::string(::_cOperandType[top->getType()]) + std::string("\n\t") +
 		      value + std::string(" .vs. ") + top->toString());
-  std::cout << top->toString() << std::endl;
 }
 
 void		Cpu::add()
 {
+  IOperand	*a;
+  IOperand	*b;
+  IOperand	*c;
 
+  a = _ram.pop();
+  b = _ram.pop();
+  c = (*a) + (*b);
+  _ram << c;
 }
 
 void		Cpu::sub()
 {
+  IOperand	*a;
+  IOperand	*b;
+  IOperand	*c;
 
+  a = _ram.pop();
+  b = _ram.pop();
+  c = (*a) - (*b);
+  _ram << c;
 }
 
 void		Cpu::mul()
 {
+  IOperand	*a;
+  IOperand	*b;
+  IOperand	*c;
 
+  a = _ram.pop();
+  b = _ram.pop();
+  c = (*a) * (*b);
+  _ram << c;
 }
 
 void		Cpu::div()
 {
+  IOperand	*a;
+  IOperand	*b;
+  IOperand	*c;
 
+  a = _ram.pop();
+  b = _ram.pop();
+  c = (*a) / (*b);
+  _ram << c;
 }
 
 void		Cpu::mod()
 {
+  IOperand	*a;
+  IOperand	*b;
+  IOperand	*c;
 
+  a = _ram.pop();
+  b = _ram.pop();
+  c = (*a) % (*b);
+  _ram << c;
 }
 
 IOperand	*Cpu::createInt8(const std::string &value)

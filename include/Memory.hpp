@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Thu Feb 19 02:10:53 2015 Emmanuel Chambon
-// Last update Thu Feb 19 04:49:36 2015 Emmanuel Chambon
+// Last update Sat Feb 21 22:29:43 2015 Emmanuel Chambon
 //
 
 #ifndef MEMORY_HPP_H
@@ -23,11 +23,13 @@ public:
   ~Memory() {};
 
 public:
-  void				pop();
+  IOperand			*pop();
   void				push(IOperand *);
   void				dump() const;
-  IOperand			*popless() const;
-  void				operator>>(IOperand *);
+  void				popless();
+  void				del();
+  IOperand			*operator[](size_t) const;
+  Memory			&operator<<(IOperand *);
 
 private:
   std::deque<IOperand *>	_stack;
