@@ -5,17 +5,15 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Tue Feb 17 17:32:28 2015 Emmanuel Chambon
-// Last update Fri Feb 20 14:19:25 2015 Emmanuel Chambon
+// Last update Sun Feb 22 01:06:15 2015 Emmanuel Chambon
 //
 
 #include "Chipset.hpp"
 
 Chipset::Chipset(int ac, char **av) : _cac(ac), _cav(av), _exit(false), _cpu(Cpu::getInstance())
-{
+{}
 
-}
-
-void		Chipset::read()
+void			Chipset::read()
 {
   std::stringstream	stream;
   std::string		line;
@@ -24,8 +22,7 @@ void		Chipset::read()
     while (std::getline(std::cin, line)) {
       if (line == ";;")
 	break;
-      line = epur_line(line);
-	stream << line << "\n";
+      stream << epur_line(line) << "\n";
     }
     if (line != ";;")
       throw VMException("\";;\" code is missing.");
@@ -43,8 +40,7 @@ void		Chipset::read()
       file.open(_cav[i]);
       if (file.is_open() == true) {
 	while (std::getline(file, line) && _exit == false) {
-	  line = epur_line(line);
-	  stream << line << "\n";
+	  stream << epur_line(line) << "\n";
 	}
       } else {
 	throw VMException(std::string("avm: error: ") + std::string(_cav[i]) + std::string(": No such file or directory"));
@@ -60,9 +56,9 @@ void		Chipset::read()
   }
 }
 
-std::string	 Chipset::epur_line(std::string stream)
+std::string		 Chipset::epur_line(std::string stream)
 {
-  size_t pos;
+  size_t		pos;
 
   while ((pos = stream.find(";")) != std::string::npos)
     stream.erase(pos, stream.length() - pos);
@@ -75,7 +71,7 @@ std::string	 Chipset::epur_line(std::string stream)
   return stream;
 }
 
-void		Chipset::setInstr()
+void			Chipset::setInstr()
 {
   _instr.insert(Instr::value_type("pop", &Cpu::pop));
   _instr.insert(Instr::value_type("add", &Cpu::add));
@@ -93,10 +89,10 @@ void		Chipset::setInstr()
   _type.insert(Type::value_type("double", ::Double));
 }
 
-eOperandType	Chipset::getOperandType(std::string value)
+eOperandType		Chipset::getOperandType(std::string value)
 {
-  size_t	pos;
-  size_t	pos2;
+  size_t		pos;
+  size_t		pos2;
 
   if (((pos = value.find("(")) == std::string::npos)
       || ((pos2 = value.find(")")) == std::string::npos)
@@ -109,11 +105,11 @@ eOperandType	Chipset::getOperandType(std::string value)
   throw VMException("Unknow type");
 }
 
-std::string	Chipset::getOperandValue(std::string value)
+std::string		Chipset::getOperandValue(std::string value)
 {
-  size_t	pos;
-  size_t	pos2;
-  std::string	buff;
+  size_t		pos;
+  size_t		pos2;
+  std::string		buff;
 
   if (((pos = value.find("(")) == std::string::npos)
       || ((pos2 = value.find(")")) == std::string::npos)
@@ -126,7 +122,7 @@ std::string	Chipset::getOperandValue(std::string value)
   throw VMException("Invalid Value");
 }
 
-void		Chipset::parse(std::stringstream &input)
+void			Chipset::parse(std::stringstream &input)
 {
   std::stringstream	error;
   std::string		line;
@@ -157,24 +153,24 @@ void		Chipset::parse(std::stringstream &input)
 	}
       }
       else {
-	Instr::iterator i = _instr.find(instr);
+	Instr::iterator	i = _instr.find(instr);
 	if (i != _instr.end()) {
-	  void(Cpu::*ptr)() = i->second;
+	  void		(Cpu::*ptr)() = i->second;
 	  try {
 	    (_cpu.*ptr)();
 	  } catch (std::exception &e) {
-	    error << ":" << ln << ": " << "\t\"" << RED << line << RESET << "\"" << std::endl << e.what();
+	    error << ":" << ln << ": " << "\t\"" << RED << line << RESET << "\"" << std::endl << "   " << e.what();
 	    throw VMException(error.str());
 	  }
 	}
 	else {
 	  ConstInstr::iterator i = _constInstr.find(instr);
 	  if (i != _constInstr.end()) {
-	    void(Cpu::*ptr)() const = i->second;
+	    void	(Cpu::*ptr)() const = i->second;
 	    try {
 	      (_cpu.*ptr)();
 	    } catch (std::exception &e) {
-	      error << ":" << ln << ": " << "\t\"" << RED << line << RESET << "\"" << std::endl << e.what();
+	      error << ":" << ln << ": " << "\t\"" << RED << line << RESET << "\"" << std::endl << "   " << e.what();
 	      throw VMException(error.str());
 	    }
 	  }

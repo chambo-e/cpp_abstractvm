@@ -5,18 +5,18 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Wed Feb 18 00:09:46 2015 Emmanuel Chambon
-// Last update Sat Feb 21 22:50:09 2015 Emmanuel Chambon
+// Last update Sun Feb 22 01:11:43 2015 Emmanuel Chambon
 //
 
 #ifndef CPU_HPP_
 # define CPU_HPP_
 
-#include "VMException.hpp"
-#include "Memory.hpp"
-#include <stdint.h>
-#include <iostream>
-#include <sstream>
+# include <stdint.h>
+# include <iostream>
+# include <sstream>
 # include "Colors.hpp"
+# include "VMException.hpp"
+# include "Memory.hpp"
 
 class Cpu
 {

@@ -5,16 +5,16 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Thu Feb 19 02:10:53 2015 Emmanuel Chambon
-// Last update Sat Feb 21 22:29:43 2015 Emmanuel Chambon
+// Last update Sun Feb 22 01:12:11 2015 Emmanuel Chambon
 //
 
 #ifndef MEMORY_HPP_H
 # define MEMORY_HPP_H
 
-#include <deque>
-#include <iostream>
-#include "IOperand.hpp"
-#include "VMException.hpp"
+# include <deque>
+# include <iostream>
+# include "IOperand.hpp"
+# include "VMException.hpp"
 
 class Memory
 {

@@ -5,14 +5,14 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Wed Feb 18 00:49:54 2015 Emmanuel Chambon
-// Last update Wed Feb 18 00:58:32 2015 Emmanuel Chambon
+// Last update Sun Feb 22 01:12:15 2015 Emmanuel Chambon
 //
 
 #ifndef VMEXCEPTION_HPP_
 # define VMEXCEPTION_HPP_
 
-#include <exception>
-#include <string>
+# include <exception>
+# include <string>
 
 class VMException : public std::exception
 {

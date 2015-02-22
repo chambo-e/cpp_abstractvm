@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Tue Feb 17 17:22:29 2015 Emmanuel Chambon
-// Last update Fri Feb 20 01:02:10 2015 Emmanuel Chambon
+// Last update Sun Feb 22 01:12:54 2015 Emmanuel Chambon
 //
 
 #ifndef CHIPSET_HPP_
@@ -43,14 +43,14 @@ private:
   Cpu							&_cpu;
 
 public:
-  void						read();
+  void							read();
 
 private:
-  std::string					epur_line(std::string);
-  void					       	parse(std::stringstream &);
-  void						setInstr();
-  std::string					getOperandValue(std::string);
-  eOperandType					getOperandType(std::string);
+  void						       	parse(std::stringstream &);
+  void							setInstr();
+  std::string						epur_line(std::string);
+  std::string						getOperandValue(std::string);
+  eOperandType						getOperandType(std::string);
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Thu Feb 19 02:38:28 2015 Emmanuel Chambon
-// Last update Fri Feb 20 15:31:42 2015 Emmanuel Chambon
+// Last update Sun Feb 22 01:08:55 2015 Emmanuel Chambon
 //
 
 #include "Memory.hpp"
@@ -14,7 +14,7 @@ void		Memory::del()
 {
   if (_stack.size() <= 0)
     throw VMException("Cannot pop on empty stack");
-  IOperand *front = (*this)[0];
+  IOperand	*front = (*this)[0];
   delete front;
   _stack.pop_front();
 }
@@ -30,11 +30,11 @@ void		Memory::dump() const
     std::cout << (*i)->toString() << std::endl;
 }
 
-IOperand		*Memory::pop()
+IOperand	*Memory::pop()
 {
   if (_stack.size() <= 0)
     throw VMException("Stack is empty");
-  IOperand *front = (*this)[0];
+  IOperand	*front = (*this)[0];
   _stack.pop_front();
   return front;
 }
