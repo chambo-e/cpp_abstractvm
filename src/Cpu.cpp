@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Thu Feb 19 00:55:31 2015 Emmanuel Chambon
-// Last update Sun Feb 22 01:08:21 2015 Emmanuel Chambon
+// Last update Mon Feb 23 18:18:05 2015 Emmanuel Chambon
 //
 
 #include "Cpu.hpp"
@@ -13,6 +13,16 @@
 #include "Operand.hpp"
 
 Cpu			Cpu::_inst = Cpu();
+
+Cpu::Cpu()
+{
+  _operand.insert(Op::value_type(::Int8, &Cpu::createInt8));
+  _operand.insert(Op::value_type(::Int16, &Cpu::createInt16));
+  _operand.insert(Op::value_type(::Int32, &Cpu::createInt32));
+  _operand.insert(Op::value_type(::Int64, &Cpu::createInt64));
+  _operand.insert(Op::value_type(::Float, &Cpu::createFloat));
+  _operand.insert(Op::value_type(::Double, &Cpu::createDouble));
+}
 
 Cpu			&Cpu::operator=(const Cpu &cpu)
 {
@@ -150,17 +160,6 @@ IOperand		*Cpu::createDouble(const std::string &value)
 
 IOperand		*Cpu::createOperand(eOperandType t, const std::string &value)
 {
-  if (t == ::Int8)
-    return createInt8(value);
-  else if (t == ::Int16)
-    return createInt16(value);
-  else if (t == ::Int32)
-    return createInt32(value);
-  else if (t == ::Int64)
-    return createInt64(value);
-  else if (t == ::Float)
-    return createFloat(value);
-  else if (t == ::Double)
-    return createDouble(value);
-  return 0;
+  IOperand *(Cpu::*ptr)(const std::string &) = _operand[t];
+  return ((this->*ptr)(value));
 }
