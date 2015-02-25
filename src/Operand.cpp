@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Thu Feb 19 19:17:50 2015 Emmanuel Chambon
-// Last update Sun Feb 22 01:02:51 2015 Emmanuel Chambon
+// Last update Wed Feb 25 22:19:36 2015 Emmanuel Chambon
 //
 
 #include "Operand.hpp"
@@ -21,11 +21,18 @@ template<typename T>
 Operand<T>::Operand(eOperandType t, std::string const &value) : _type(t), _str(value), _cpu(Cpu::getInstance())
 {
   std::stringstream	cv(value);
-  T			v;
+  double			v;
 
   if (!(cv >> v))
     throw VMException(std::string("Underflow or Overflow on ") + value + std::string(" for type: ") +
 		      std::string(::cOperandType[_type]));
+  if ((std::numeric_limits<T>::has_denorm == std::denorm_absent)
+      && (v < std::numeric_limits<T>::min() || v > std::numeric_limits<T>::max()))
+    throw VMException(std::string("Underflow or Overflow on ") + _str +
+		      std::string(" for type: ") + std::string(::cOperandType[_type]));
+  else if (v < -(std::numeric_limits<T>::max()) || v > std::numeric_limits<T>::max())
+    throw VMException(std::string("Underflow or Overflow on ") + _str +
+		      std::string(" for type: ") + std::string(::cOperandType[_type]));
 }
 
 template<typename T>
