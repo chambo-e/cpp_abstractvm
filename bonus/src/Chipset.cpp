@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Tue Feb 17 17:32:28 2015 Emmanuel Chambon
-// Last update Sat Feb 28 02:47:14 2015 Emmanuel Chambon
+// Last update Sat Feb 28 02:10:50 2015 Emmanuel Chambon
 //
 
 #include "Chipset.hpp"
@@ -91,6 +91,7 @@ void			Chipset::setInstr()
   _type.insert(Type::value_type("int64", ::Int32));
   _type.insert(Type::value_type("float", ::Float));
   _type.insert(Type::value_type("double", ::Double));
+  _type.insert(Type::value_type("auto", ::Auto));
 }
 
 eOperandType		Chipset::getOperandType(const std::string &value) const
@@ -110,7 +111,7 @@ eOperandType		Chipset::getOperandType(const std::string &value) const
   throw VMException("   Unknow TYPE");
 }
 
-std::string const	Chipset::getOperandValue(const std::string &value) const
+const std::string	Chipset::getOperandValue(const std::string &value) const
 {
   size_t		pos;
   size_t		pos2;

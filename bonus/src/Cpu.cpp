@@ -5,12 +5,13 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Thu Feb 19 00:55:31 2015 Emmanuel Chambon
-// Last update Sat Feb 28 02:04:53 2015 Emmanuel Chambon
+// Last update Sat Feb 28 02:08:24 2015 Emmanuel Chambon
 //
 
 #include "Cpu.hpp"
 #include "cOperandType.hpp"
 #include "Operand.hpp"
+#include <cstdio>
 
 Cpu			Cpu::_inst = Cpu();
 
@@ -19,8 +20,10 @@ Cpu::Cpu()
   _operand.insert(Op::value_type(::Int8, &Cpu::createInt8));
   _operand.insert(Op::value_type(::Int16, &Cpu::createInt16));
   _operand.insert(Op::value_type(::Int32, &Cpu::createInt32));
+  _operand.insert(Op::value_type(::Int64, &Cpu::createInt64));
   _operand.insert(Op::value_type(::Float, &Cpu::createFloat));
   _operand.insert(Op::value_type(::Double, &Cpu::createDouble));
+  _operand.insert(Op::value_type(::Auto, &Cpu::createAuto));
 }
 
 Cpu			&Cpu::operator=(const Cpu &cpu)
@@ -37,7 +40,6 @@ void			Cpu::dump() const
 {
   _ram.dump();
 }
-
 void			Cpu::print() const
 {
   IOperand		*top = _ram[0];
@@ -152,6 +154,11 @@ IOperand		*Cpu::createInt32(const std::string &value)
   return new Operand<int32_t>(::Int32, value);
 }
 
+IOperand		*Cpu::createInt64(const std::string &value)
+{
+  return new Operand<int64_t>(::Int64, value);
+}
+
 IOperand		*Cpu::createFloat(const std::string &value)
 {
   return new Operand<float>(::Float, value);
@@ -160,6 +167,33 @@ IOperand		*Cpu::createFloat(const std::string &value)
 IOperand		*Cpu::createDouble(const std::string &value)
 {
   return new Operand<double>(::Double, value);
+}
+
+IOperand		*Cpu::createAuto(const std::string &value)
+{
+  std::stringstream             s(value);
+  double                        x;
+
+  s >> x;
+  if (value.find(".") != std::string::npos) {
+    if (((x >= -(std::numeric_limits<float>::max())) && x <= std::numeric_limits<float>::max()))
+      return createFloat(value);
+    else if (((x >= -(std::numeric_limits<double>::max())) && x <= std::numeric_limits<double>::max()))
+      return createDouble(value);
+  }
+  if ((x >= std::numeric_limits<int8_t>::min() && x <= std::numeric_limits<int8_t>::max()))
+    return createInt8(value);
+  else if ((x >= std::numeric_limits<int16_t>::min() && x <= std::numeric_limits<int16_t>::max()))
+    return createInt16(value);
+  else if ((x >= std::numeric_limits<int32_t>::min() && x <= std::numeric_limits<int32_t>::max()))
+    return createInt32(value);
+  else if ((x >= std::numeric_limits<int64_t>::min() && x <= std::numeric_limits<int64_t>::max()))
+    return createInt64(value);
+  else if (((x >= -(std::numeric_limits<float>::max())) && x <= std::numeric_limits<float>::max()))
+    return createFloat(value);
+  else if (((x >= -(std::numeric_limits<double>::max())) && x <= std::numeric_limits<double>::max()))
+    return createDouble(value);
+  throw VMException(std::string("Unrecognized value: ") + value);
 }
 
 IOperand		*Cpu::createOperand(eOperandType t, const std::string &value)

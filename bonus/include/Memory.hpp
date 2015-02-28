@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Thu Feb 19 02:10:53 2015 Emmanuel Chambon
-// Last update Sat Feb 28 02:06:32 2015 Emmanuel Chambon
+// Last update Sat Feb 28 02:09:00 2015 Emmanuel Chambon
 //
 
 #ifndef MEMORY_HPP_H
@@ -13,6 +13,9 @@
 
 # include <deque>
 # include <iostream>
+# include <sstream>
+# include <iomanip>
+# include <bitset>
 # include "IOperand.hpp"
 # include "VMException.hpp"
 
@@ -24,11 +27,15 @@ public:
 
 public:
   IOperand			*pop();
+  size_t			size() const;
   void				push(IOperand *);
   void				dump() const;
   void				del();
   IOperand			*operator[](size_t) const;
   Memory			&operator<<(IOperand *);
+
+private:
+  void				desc(IOperand * = 0) const;
 
 private:
   std::deque<IOperand *>	_stack;

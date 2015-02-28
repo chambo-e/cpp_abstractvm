@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Wed Feb 18 00:09:46 2015 Emmanuel Chambon
-// Last update Fri Feb 27 14:39:38 2015 Emmanuel Chambon
+// Last update Fri Feb 27 21:56:17 2015 Emmanuel Chambon
 //
 
 #ifndef CPU_HPP_
@@ -14,6 +14,8 @@
 # include <stdint.h>
 # include <iostream>
 # include <sstream>
+# include <iomanip>
+# include <bitset>
 # include <map>
 # include "Colors.hpp"
 # include "VMException.hpp"
@@ -47,8 +49,10 @@ private:
   IOperand		*createInt8(const std::string &);
   IOperand		*createInt16(const std::string &);
   IOperand		*createInt32(const std::string &);
+  IOperand		*createInt64(const std::string &);
   IOperand		*createFloat(const std::string &);
   IOperand		*createDouble(const std::string &);
+  IOperand		*createAuto(const std::string &);
 
 private:
   typedef std::map<eOperandType, IOperand *(Cpu::*)(const std::string &)> Op;

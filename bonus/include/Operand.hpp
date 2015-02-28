@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Thu Feb 19 04:30:49 2015 Emmanuel Chambon
-// Last update Sat Feb 28 02:42:23 2015 Emmanuel Chambon
+// Last update Sat Feb 28 02:19:29 2015 Emmanuel Chambon
 //
 
 #ifndef OPERAND_HPP_

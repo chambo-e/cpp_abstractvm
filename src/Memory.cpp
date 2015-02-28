@@ -5,10 +5,16 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Thu Feb 19 02:38:28 2015 Emmanuel Chambon
-// Last update Sun Feb 22 01:08:55 2015 Emmanuel Chambon
+// Last update Sat Feb 28 02:07:52 2015 Emmanuel Chambon
 //
 
 #include "Memory.hpp"
+
+Memory::~Memory()
+{
+  while (_stack.size() > 0)
+    del();
+}
 
 void		Memory::del()
 {
@@ -39,16 +45,9 @@ IOperand	*Memory::pop()
   return front;
 }
 
-void		Memory::popless()
-{
-  if (_stack.size() <= 0)
-    throw VMException("Stack is empty");
-  _stack.pop_front();
-}
-
 IOperand	*Memory::operator[](size_t i) const
 {
-  if (_stack.size() <= i)
+  if (_stack.size() < i)
     throw VMException("Stack is empty");
   return _stack[i];
 }
