@@ -5,13 +5,48 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Tue Feb 17 17:32:28 2015 Emmanuel Chambon
-// Last update Sat Feb 28 02:10:50 2015 Emmanuel Chambon
+// Last update Sat Feb 28 23:02:58 2015 Emmanuel Chambon
 //
 
 #include "Chipset.hpp"
 
 Chipset::Chipset(int ac, char **av) : _cac(ac), _cav(av),_cpu(Cpu::getInstance())
 {}
+
+void                    Chipset::readFiles()
+{
+  std::stringstream     stream;
+  std::string           line;
+
+  for (int i = 1; _cav[i]; i++) {
+    try {
+      std::fstream      file;
+      std::string       fl(_cav[i]);
+
+      if (fl.substr(fl.find_last_of(".") + 1) != "avm")
+	throw VMException("Not an avm file");
+      _exit = false;
+      file.open(_cav[i]);
+      if (file.is_open() == true) {
+	while (std::getline(file, line) && _exit == false) {
+	  stream << epur_line(line) << "\n";
+	}
+      } else throw VMException("No such file or directory");
+      if (_exit == false) throw VMException("\"exit\" instruction is missing.");
+      parse(stream);
+      stream.clear();
+      stream.str(std::string());
+      _cpu.clear();
+    } catch (std::exception &e) {
+      if (_cav[i + 1]) {
+	std::cout << std::string(_cav[i]) << ": "<< e.what() << std::endl;
+	stream.clear();
+	stream.str(std::string());
+	_cpu.clear();
+      } else throw VMException(std::string(_cav[i]) + ": "  + std::string(e.what()));
+    }
+  }
+}
 
 void			Chipset::read()
 {
@@ -30,34 +65,8 @@ void			Chipset::read()
     } catch (std::exception &e) {
       throw VMException("std::cin: " + std::string(e.what()));
     }
-  } else {
-    for (int i = 1; _cav[i]; i++) {
-      try {
-	std::fstream	file;
-	std::string	fl(_cav[i]);
-
-	if (fl.substr(fl.find_last_of(".") + 1) != "avm")
-	  throw VMException("Not an avm file");
-	_exit = false;
-	file.open(_cav[i]);
-	if (file.is_open() == true) {
-	  while (std::getline(file, line) && _exit == false) {
-	    stream << epur_line(line) << "\n";
-	  }
-	} else throw VMException("No such file or directory");
-	if (_exit == false) throw VMException("\"exit\" instruction is missing.");
-	parse(stream);
-	stream.clear();
-	stream.str(std::string());
-      } catch (std::exception &e) {
-	if (_cav[i + 1]) {
-	  std::cout << std::string(_cav[i]) << ": "<< e.what() << std::endl;
-	  stream.clear();
-	  stream.str(std::string());
-	} else throw VMException(std::string(_cav[i]) + ": "  + std::string(e.what()));
-      }
-    }
-  }
+  } else
+    readFiles();
 }
 
 std::string		Chipset::epur_line(std::string &stream)
@@ -83,6 +92,7 @@ void			Chipset::setInstr()
   _instr.insert(Instr::value_type("mul", &Cpu::mul));
   _instr.insert(Instr::value_type("div", &Cpu::div));
   _instr.insert(Instr::value_type("mod", &Cpu::mod));
+  _instr.insert(Instr::value_type("clear", &Cpu::clear));
   _constInstr.insert(ConstInstr::value_type("dump", &Cpu::dump));
   _constInstr.insert(ConstInstr::value_type("print", &Cpu::print));
   _type.insert(Type::value_type("int8", ::Int8));
@@ -100,8 +110,8 @@ eOperandType		Chipset::getOperandType(const std::string &value) const
   size_t		pos2;
   std::string		buff(value);
 
-  if (((pos = buff.find("(")) == std::string::npos)
-      || ((pos2 = buff.find(")")) == std::string::npos)
+  if (((pos = buff.find_first_of("(")) == std::string::npos)
+      || ((pos2 = buff.find_first_of(")")) == std::string::npos)
       || pos > pos2)
     throw VMException("   TYPE syntax error");
   buff.erase(pos, buff.length() - pos);
@@ -117,10 +127,10 @@ const std::string	Chipset::getOperandValue(const std::string &value) const
   size_t		pos2;
   std::string		buff;
 
-  if (((pos = value.find("(")) == std::string::npos)
-      || ((pos2 = value.find(")")) == std::string::npos)
+  if (((pos = value.find_first_of("(")) == std::string::npos)
+      || ((pos2 = value.find_first_of(")")) == std::string::npos)
       || pos > pos2)
-    throw VMException("   VALUE syntax error");
+    throw VMException("   TYPE syntax error");
   pos++;
   buff = value.substr(pos, pos2 - pos);
   if (buff.empty() == false)
@@ -139,6 +149,7 @@ void			Chipset::parse(std::stringstream &input)
   while (getline(input, line)) {
     std::istringstream	line_stream(line);
     std::string		args;
+    std::string		arg;
     std::string		instr;
 
     if (line_stream >> instr >> std::ws) {
@@ -148,7 +159,18 @@ void			Chipset::parse(std::stringstream &input)
       if (args.empty() == false) {
 	try {
 	  if (instr == "push") _cpu.push(getOperandType(args), getOperandValue(args));
-	  else if (instr == "assert") _cpu.assert(getOperandType(args), getOperandValue(args));
+	  else if (instr == "assert") {
+	    line_stream >> arg >> arg;
+	    if (arg.empty() == false) {
+	      try {
+		_cpu.assert(getOperandType(args), getOperandValue(args));
+	      } catch (std::exception &e) {
+		std::cout << RED << line << RESET << "\"" << std::endl << "   " << e.what() <<  std::endl;
+		_cpu.assert(getOperandType(arg), getOperandValue(arg));
+	      }
+	    } else
+	      _cpu.assert(getOperandType(args), getOperandValue(args));
+	  }
 	  else throw VMException("   Unknow instruction type");
 	} catch (std::exception &e) {
 	  error << ln << ": " << "\t\"" << RED << line << RESET << "\"" << std::endl << e.what();

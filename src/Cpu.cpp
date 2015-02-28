@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Thu Feb 19 00:55:31 2015 Emmanuel Chambon
-// Last update Sat Feb 28 02:04:53 2015 Emmanuel Chambon
+// Last update Sat Feb 28 22:49:20 2015 Emmanuel Chambon
 //
 
 #include "Cpu.hpp"
@@ -26,6 +26,11 @@ Cpu::Cpu()
 Cpu			&Cpu::operator=(const Cpu &cpu)
 {
   return cpu.getInstance();
+}
+
+void			Cpu::clear()
+{
+  _ram.clear();
 }
 
 void			Cpu::pop()

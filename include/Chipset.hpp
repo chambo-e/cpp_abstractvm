@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Tue Feb 17 17:22:29 2015 Emmanuel Chambon
-// Last update Sat Feb 28 02:47:17 2015 Emmanuel Chambon
+// Last update Sat Feb 28 22:44:19 2015 Emmanuel Chambon
 //
 
 #ifndef CHIPSET_HPP_
@@ -46,6 +46,7 @@ public:
   void							read();
 
 private:
+  void							readFiles();
   void						       	parse(std::stringstream &);
   void							setInstr();
   std::string						epur_line(std::string &);

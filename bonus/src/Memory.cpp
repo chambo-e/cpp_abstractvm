@@ -5,13 +5,19 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Thu Feb 19 02:38:28 2015 Emmanuel Chambon
-// Last update Sat Feb 28 02:18:21 2015 Emmanuel Chambon
+// Last update Sat Feb 28 23:02:18 2015 Emmanuel Chambon
 //
 
 #include "Memory.hpp"
 #include "cOperandType.hpp"
 
 Memory::~Memory()
+{
+  while (size() > 0)
+    del();
+}
+
+void		Memory::clear()
 {
   while (size() > 0)
     del();

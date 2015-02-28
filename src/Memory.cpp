@@ -5,12 +5,18 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Thu Feb 19 02:38:28 2015 Emmanuel Chambon
-// Last update Sat Feb 28 02:07:52 2015 Emmanuel Chambon
+// Last update Sat Feb 28 22:48:19 2015 Emmanuel Chambon
 //
 
 #include "Memory.hpp"
 
 Memory::~Memory()
+{
+  while (_stack.size() > 0)
+    del();
+}
+
+void		Memory::clear()
 {
   while (_stack.size() > 0)
     del();

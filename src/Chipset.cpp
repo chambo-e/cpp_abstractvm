@@ -5,13 +5,48 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Tue Feb 17 17:32:28 2015 Emmanuel Chambon
-// Last update Sat Feb 28 02:47:14 2015 Emmanuel Chambon
+// Last update Sat Feb 28 22:58:01 2015 Emmanuel Chambon
 //
 
 #include "Chipset.hpp"
 
 Chipset::Chipset(int ac, char **av) : _cac(ac), _cav(av),_cpu(Cpu::getInstance())
 {}
+
+void			Chipset::readFiles()
+{
+  std::stringstream	stream;
+  std::string		line;
+
+  for (int i = 1; _cav[i]; i++) {
+    try {
+      std::fstream	file;
+      std::string	fl(_cav[i]);
+
+      if (fl.substr(fl.find_last_of(".") + 1) != "avm")
+	throw VMException("Not an avm file");
+      _exit = false;
+      file.open(_cav[i]);
+      if (file.is_open() == true) {
+	while (std::getline(file, line) && _exit == false) {
+	  stream << epur_line(line) << "\n";
+	}
+      } else throw VMException("No such file or directory");
+      if (_exit == false) throw VMException("\"exit\" instruction is missing.");
+      parse(stream);
+      stream.clear();
+      stream.str(std::string());
+      _cpu.clear();
+    } catch (std::exception &e) {
+      if (_cav[i + 1]) {
+	std::cout << std::string(_cav[i]) << ": "<< e.what() << std::endl;
+	stream.clear();
+	stream.str(std::string());
+	_cpu.clear();
+      } else throw VMException(std::string(_cav[i]) + ": "  + std::string(e.what()));
+    }
+  }
+}
 
 void			Chipset::read()
 {
@@ -30,34 +65,8 @@ void			Chipset::read()
     } catch (std::exception &e) {
       throw VMException("std::cin: " + std::string(e.what()));
     }
-  } else {
-    for (int i = 1; _cav[i]; i++) {
-      try {
-	std::fstream	file;
-	std::string	fl(_cav[i]);
-
-	if (fl.substr(fl.find_last_of(".") + 1) != "avm")
-	  throw VMException("Not an avm file");
-	_exit = false;
-	file.open(_cav[i]);
-	if (file.is_open() == true) {
-	  while (std::getline(file, line) && _exit == false) {
-	    stream << epur_line(line) << "\n";
-	  }
-	} else throw VMException("No such file or directory");
-	if (_exit == false) throw VMException("\"exit\" instruction is missing.");
-	parse(stream);
-	stream.clear();
-	stream.str(std::string());
-      } catch (std::exception &e) {
-	if (_cav[i + 1]) {
-	  std::cout << std::string(_cav[i]) << ": "<< e.what() << std::endl;
-	  stream.clear();
-	  stream.str(std::string());
-	} else throw VMException(std::string(_cav[i]) + ": "  + std::string(e.what()));
-      }
-    }
-  }
+  } else
+    readFiles();
 }
 
 std::string		Chipset::epur_line(std::string &stream)
