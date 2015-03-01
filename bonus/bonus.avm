@@ -1,0 +1,9 @@
+push auto(2565551541525525)
+push auto(256.3)
+push auto(55456456456645645645645645645645645645645656.3)
+push auto(2)
+push auto(256)
+push int64(125)
+assert int32(125) || int64(125)
+dump
+exit

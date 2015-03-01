@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Thu Feb 19 02:38:28 2015 Emmanuel Chambon
-// Last update Sat Feb 28 23:02:18 2015 Emmanuel Chambon
+// Last update Sun Mar  1 00:39:33 2015 Emmanuel Chambon
 //
 
 #include "Memory.hpp"
@@ -73,7 +73,7 @@ void                    Memory::desc(IOperand *el) const
     std::cout << std::bitset<16>(t) << " |" << std::endl;
   else if (el->getType() == ::Int32 || el->getType() == ::Float)
     std::cout << std::bitset<32>(t) << " |" << std::endl;
-  else if (el->getType() == ::Double || el->getType() == ::Int64)
+  else if (el->getType() == ::Int64 || el->getType() == ::Double)
     std::cout << std::bitset<64>(t) << " |" << std::endl;
 }
 

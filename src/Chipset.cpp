@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Tue Feb 17 17:32:28 2015 Emmanuel Chambon
-// Last update Sat Feb 28 22:58:01 2015 Emmanuel Chambon
+// Last update Sun Mar  1 19:52:15 2015 Emmanuel Chambon
 //
 
 #include "Chipset.hpp"
@@ -97,7 +97,6 @@ void			Chipset::setInstr()
   _type.insert(Type::value_type("int8", ::Int8));
   _type.insert(Type::value_type("int16", ::Int16));
   _type.insert(Type::value_type("int32", ::Int32));
-  _type.insert(Type::value_type("int64", ::Int32));
   _type.insert(Type::value_type("float", ::Float));
   _type.insert(Type::value_type("double", ::Double));
 }
@@ -119,6 +118,12 @@ eOperandType		Chipset::getOperandType(const std::string &value) const
   throw VMException("   Unknow TYPE");
 }
 
+bool			Chipset::isNumeric(const std::string &str) const
+{
+  std::string		base("0123456789.");
+  return (str.find_first_not_of("0123456789.", 11) == std::string::npos);
+}
+
 std::string const	Chipset::getOperandValue(const std::string &value) const
 {
   size_t		pos;
@@ -131,7 +136,7 @@ std::string const	Chipset::getOperandValue(const std::string &value) const
     throw VMException("   VALUE syntax error");
   pos++;
   buff = value.substr(pos, pos2 - pos);
-  if (buff.empty() == false)
+  if (buff.empty() == false && isNumeric(buff) == true)
     return (buff);
   throw VMException("   Invalid VALUE");
 }

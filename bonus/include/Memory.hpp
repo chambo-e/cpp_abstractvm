@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Thu Feb 19 02:10:53 2015 Emmanuel Chambon
-// Last update Sat Feb 28 23:01:36 2015 Emmanuel Chambon
+// Last update Sun Mar  1 00:20:52 2015 Emmanuel Chambon
 //
 
 #ifndef MEMORY_HPP_H
@@ -16,6 +16,7 @@
 # include <sstream>
 # include <iomanip>
 # include <bitset>
+# include <cstring>
 # include "IOperand.hpp"
 # include "VMException.hpp"
 

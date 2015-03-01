@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Tue Feb 17 17:32:28 2015 Emmanuel Chambon
-// Last update Sat Feb 28 23:02:58 2015 Emmanuel Chambon
+// Last update Sun Mar  1 19:51:53 2015 Emmanuel Chambon
 //
 
 #include "Chipset.hpp"
@@ -98,7 +98,7 @@ void			Chipset::setInstr()
   _type.insert(Type::value_type("int8", ::Int8));
   _type.insert(Type::value_type("int16", ::Int16));
   _type.insert(Type::value_type("int32", ::Int32));
-  _type.insert(Type::value_type("int64", ::Int32));
+  _type.insert(Type::value_type("int64", ::Int64));
   _type.insert(Type::value_type("float", ::Float));
   _type.insert(Type::value_type("double", ::Double));
   _type.insert(Type::value_type("auto", ::Auto));

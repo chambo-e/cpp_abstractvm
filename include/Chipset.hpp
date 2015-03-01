@@ -5,7 +5,7 @@
 // Login   <chambo_e@epitech.net>
 //
 // Started on  Tue Feb 17 17:22:29 2015 Emmanuel Chambon
-// Last update Sat Feb 28 22:44:19 2015 Emmanuel Chambon
+// Last update Sun Mar  1 05:49:35 2015 Emmanuel Chambon
 //
 
 #ifndef CHIPSET_HPP_
@@ -46,6 +46,7 @@ public:
   void							read();
 
 private:
+  bool							isNumeric(const std::string &) const;
   void							readFiles();
   void						       	parse(std::stringstream &);
   void							setInstr();
